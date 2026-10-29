@@ -1,0 +1,22 @@
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; font-family: system-ui, sans-serif; font-size: 14px; }
+.layout { display: flex; height: 100vh; }
+.side { width: 340px; padding: 12px; overflow-y: auto; border-right: 1px solid #ddd; background: #fafafa; }
+.mapbox { flex: 1; position: relative; }
+.mapbox .leaflet-container { height: 100%; width: 100%; }
+h3 { margin: 16px 0 6px; font-size: 13px; text-transform: uppercase; color: #666; }
+input, select, button { font: inherit; padding: 6px 8px; }
+input, select { width: 100%; margin-bottom: 6px; }
+button { cursor: pointer; }
+.row { display: flex; gap: 4px; align-items: center; }
+.item { display: flex; gap: 4px; align-items: center; padding: 4px 0; border-bottom: 1px solid #eee; }
+.item .name { flex: 1; cursor: pointer; }
+.item.sel .name { font-weight: 700; }
+.item.done .name { text-decoration: line-through; color: #888; }
+.muted { color: #888; font-size: 12px; }
+.login { max-width: 320px; margin: 20vh auto; display: flex; flex-direction: column; gap: 6px; }
+.err { color: #b00; }
+@media (max-width: 700px) {
+  .layout { flex-direction: column-reverse; }
+  .side { width: 100%; height: 45vh; border-right: 0; border-top: 1px solid #ddd; }
+}

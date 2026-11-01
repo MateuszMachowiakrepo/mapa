@@ -5,6 +5,7 @@ Next.js + react-leaflet (OpenStreetMap) + Supabase. Wersja jednoużytkownikowa, 
 ## 1. Supabase
 1. Załóż projekt na supabase.com (free).
 2. SQL Editor → wklej `supabase/schema.sql` → Run.
+   (Masz już starą bazę? Uruchom zamiast tego `supabase/migration.sql`.)
 3. Authentication → Users → **Add user** (Twój e-mail + hasło, zaznacz auto-confirm).
 4. Authentication → Sign In / Providers → wyłącz **Allow new users to sign up**.
 5. Project Settings → API → skopiuj `Project URL` i `anon public key`.
@@ -23,9 +24,10 @@ npm run dev
 4. Deploy → adres `*.vercel.app`.
 
 ## Użycie
-- Klik na mapie lub wyszukiwarka adresu → nazwa → Zapisz.
-- Trasa: utwórz → przy punktach przycisk ＋ → kolejność strzałkami.
-- Linia trasy z routing.openstreetmap.de (pieszo/rower/auto); przy błędzie rysowana jest prosta linia.
+- Dodaj punkt: wybierz rodzaj (Miasto, Atrakcja, Restauracja, Miejsce) → kliknij na mapie → wypełnij formularz.
+- Klik w punkt: karta z informacjami, ołówek edytuje, przycisk Inspiracja otwiera zapisany link.
+- Dodaj trasę: klikaj punkty na mapie → Zakończ trasę → nazwa, główny motyw, inspiracja.
+- Klik w trasę podświetla ją; klik w jej punkt pozwala go nazwać.
 
 ## Uwagi
 - Kafelki OSM i Nominatim: użycie osobiste OK, nie do dużego ruchu.

@@ -1,22 +1,96 @@
-* { box-sizing: border-box; }
-html, body { margin: 0; height: 100%; font-family: system-ui, sans-serif; font-size: 14px; }
-.layout { display: flex; height: 100vh; }
-.side { width: 340px; padding: 12px; overflow-y: auto; border-right: 1px solid #ddd; background: #fafafa; }
-.mapbox { flex: 1; position: relative; }
-.mapbox .leaflet-container { height: 100%; width: 100%; }
-h3 { margin: 16px 0 6px; font-size: 13px; text-transform: uppercase; color: #666; }
-input, select, button { font: inherit; padding: 6px 8px; }
-input, select { width: 100%; margin-bottom: 6px; }
-button { cursor: pointer; }
-.row { display: flex; gap: 4px; align-items: center; }
-.item { display: flex; gap: 4px; align-items: center; padding: 4px 0; border-bottom: 1px solid #eee; }
-.item .name { flex: 1; cursor: pointer; }
-.item.sel .name { font-weight: 700; }
-.item.done .name { text-decoration: line-through; color: #888; }
-.muted { color: #888; font-size: 12px; }
-.login { max-width: 320px; margin: 20vh auto; display: flex; flex-direction: column; gap: 6px; }
-.err { color: #b00; }
-@media (max-width: 700px) {
-  .layout { flex-direction: column-reverse; }
-  .side { width: 100%; height: 45vh; border-right: 0; border-top: 1px solid #ddd; }
+:root, :root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --fg: #1c2330;
+  --muted: #6b7380;
+  --line: #d5dae2;
+  --accent: #3b6fd4;
+  --hover: #eef1f6;
+  --map-bg: #e8e6e0;
+  --shadow: rgba(20, 30, 50, 0.22);
+  --err-bg: #fee2e2;
+  --err-fg: #7f1d1d;
 }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1b1f27;
+  --fg: #e6e8eb;
+  --muted: #9aa3af;
+  --line: #3a414d;
+  --accent: #3b6fd4;
+  --hover: #2a303b;
+  --map-bg: #0e1116;
+  --shadow: rgba(0, 0, 0, 0.6);
+  --err-bg: #4c1d1d;
+  --err-fg: #fecaca;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); font-family: system-ui, sans-serif; font-size: 14px; color: var(--fg); }
+input, select, textarea, button { font: inherit; padding: 8px 10px; }
+input, select, textarea { width: 100%; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); }
+button { cursor: pointer; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg); }
+button:disabled { opacity: 0.45; cursor: default; }
+button.primary { background: var(--accent); border-color: transparent; color: #fff; }
+button.danger { color: #f87171; }
+.err { color: #f87171; }
+
+.mapbox { position: relative; height: 100vh; }
+.mapbox .leaflet-container { height: 100%; width: 100%; }
+.mapbox[data-adding="true"] .leaflet-container,
+.mapbox[data-adding="true"] .leaflet-interactive { cursor: crosshair; }
+
+.bar {
+  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 1000;
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center;
+  padding: 8px; max-width: calc(100vw - 24px);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+.bar .hint { padding: 0 6px; }
+.kind { display: flex; align-items: center; gap: 6px; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+
+.topright { position: absolute; top: 12px; right: 12px; z-index: 1000; display: flex; gap: 8px; }
+.topright button { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
+.search { position: absolute; top: 12px; left: 56px; z-index: 1000; width: min(320px, calc(100vw - 180px)); }
+.search input { box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); }
+.search .hit { background: var(--bg); border: 1px solid var(--line); border-top: 0; padding: 6px 10px; cursor: pointer; font-size: 12px; }
+.search .hit:hover { background: var(--hover); }
+.errbar { position: absolute; top: 56px; left: 50%; transform: translateX(-50%); z-index: 1000; background: var(--err-bg); color: var(--err-fg); padding: 6px 12px; border-radius: 6px; }
+
+.modal-back { position: fixed; inset: 0; z-index: 2000; background: rgba(0, 0, 0, 0.45); display: flex; align-items: center; justify-content: center; padding: 12px; }
+.modal { width: 100%; max-width: 420px; max-height: 100%; overflow-y: auto; background: var(--bg); border-radius: 10px; border-top: 5px solid; padding: 16px 20px 20px; }
+.modal h2 { margin: 0 0 12px; font-size: 17px; }
+.modal label { display: block; margin-bottom: 10px; font-size: 12px; color: var(--muted); }
+.modal label input, .modal label textarea { margin-top: 3px; color: var(--fg); font-size: 14px; }
+.modal textarea { resize: vertical; }
+.actions { display: flex; gap: 8px; margin-top: 14px; }
+
+/* Karta punktu: kolorowy nagłówek w kolorze rodzaju + treść */
+.mapbox .leaflet-popup-content-wrapper { border-radius: 14px; padding: 0; overflow: hidden; background: var(--bg); color: var(--fg); }
+.mapbox .leaflet-popup-content { margin: 0; color: var(--fg); width: auto !important; min-width: 220px; max-width: 290px; }
+.mapbox .leaflet-popup-tip { background: var(--bg); }
+.card { --c: #7c3aed; color: var(--fg); display: flex; flex-direction: column; }
+.card .head {
+  display: flex; align-items: center; gap: 8px; padding: 10px 10px 10px 12px; color: #fff;
+  background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 60%, #000));
+}
+.card .ico { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: rgba(255, 255, 255, 0.22); font-size: 15px; line-height: 1; }
+.card .tag { flex: 1; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+.card .pencil { padding: 5px; display: flex; line-height: 0; color: #fff; background: rgba(255, 255, 255, 0.18); border: 0; }
+.card .pencil:hover { background: rgba(255, 255, 255, 0.32); }
+.card .body { display: flex; flex-direction: column; gap: 8px; padding: 12px 14px 14px; background: color-mix(in srgb, var(--c) 7%, var(--bg)); }
+.card .title { font-size: 17px; font-weight: 700; line-height: 1.25; }
+.card .row { font-size: 13px; padding-left: 10px; border-left: 3px solid color-mix(in srgb, var(--c) 70%, transparent); }
+.card .row span { display: block; font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: color-mix(in srgb, var(--c) 55%, var(--fg)); }
+.card .insp { align-self: flex-start; margin-top: 2px; padding: 6px 14px; border: 0; border-radius: 999px; background: var(--c); color: #fff; text-decoration: none; font-size: 13px; font-weight: 600; }
+.card .insp:hover { filter: brightness(1.1); }
+
+.login { max-width: 320px; margin: 20vh auto; display: flex; flex-direction: column; gap: 6px; }
+
+.leaflet-container { background: var(--map-bg); }
+.leaflet-bar a, .leaflet-bar a:hover { background: var(--bg); color: var(--fg); border-color: var(--line); }
+.leaflet-bar a:hover { background: var(--hover); }
+.leaflet-container .leaflet-control-attribution { background: color-mix(in srgb, var(--bg) 80%, transparent); color: var(--muted); }
+.leaflet-control-attribution a { color: var(--muted); }
+.mapbox .leaflet-popup-content-wrapper, .mapbox .leaflet-popup-tip { box-shadow: 0 3px 14px var(--shadow); }
+:root[data-theme="dark"] .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.95) contrast(0.9); }

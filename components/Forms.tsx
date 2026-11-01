@@ -55,7 +55,7 @@ export function PlaceForm({ kind, initial, onSave, onCancel, onDelete }: {
           </label>
         ))}
         <label>Inspiracja
-          <input placeholder="Link, np. do TikToka" value={inspiration} onChange={(e) => setInspiration(e.target.value)} />
+          <input placeholder="Link lub opis, np. TikTok, z mapy" value={inspiration} onChange={(e) => setInspiration(e.target.value)} />
         </label>
         <Actions onCancel={onCancel} onDelete={onDelete} />
       </form>
@@ -85,7 +85,7 @@ export function RouteForm({ initial, onSave, onCancel, onDelete }: {
           <input value={theme} onChange={(e) => setTheme(e.target.value)} />
         </label>
         <label>Inspiracja
-          <input placeholder="Link, np. do TikToka" value={inspiration} onChange={(e) => setInspiration(e.target.value)} />
+          <input placeholder="Link lub opis, np. TikTok, z mapy" value={inspiration} onChange={(e) => setInspiration(e.target.value)} />
         </label>
         <Actions onCancel={onCancel} onDelete={onDelete} />
       </form>

@@ -69,6 +69,12 @@ export type Route = {
   points: RoutePoint[];
 };
 
+// Link tylko gdy wpis wygląda jak adres (https://…, www.… albo domena.tld bez spacji); reszta to zwykły tekst.
+export function isLink(text: string) {
+  const t = text.trim();
+  return /^https?:\/\//i.test(t) || /^(www\.)?[\w-]+(\.[\w-]+)*\.[a-z]{2,}(\/\S*)?$/i.test(t);
+}
+
 export function linkHref(url: string) {
   return /^https?:\/\//i.test(url) ? url : `https://${url}`;
 }

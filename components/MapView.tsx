@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { Fragment, useEffect, useState } from "react";
 import type { LeafletMouseEvent } from "leaflet";
 import { MapContainer, TileLayer, CircleMarker, Polyline, Popup, useMap, useMapEvents } from "react-leaflet";
-import { KINDS, ROUTE_COLOR, ROUTE_ICON, linkHref } from "@/lib/types";
+import { KINDS, ROUTE_COLOR, ROUTE_ICON, isLink, linkHref } from "@/lib/types";
 import type { Kind, Place, Route, RoutePoint } from "@/lib/types";
 
 export type MapMode = "idle" | "place" | "route";
@@ -100,7 +100,9 @@ function Card({ color, icon, tag, title, rows, link, onEdit }: {
         {rows.map(([k, v]) => (
           <div key={k} className="row"><span>{k}</span>{v}</div>
         ))}
-        {link && <a className="insp" href={linkHref(link)} target="_blank" rel="noopener noreferrer">Inspiracja ↗</a>}
+        {link && (isLink(link)
+          ? <a className="insp" href={linkHref(link)} target="_blank" rel="noopener noreferrer">Inspiracja ↗</a>
+          : <div className="row"><span>Inspiracja</span>{link}</div>)}
       </div>
     </div>
   );
